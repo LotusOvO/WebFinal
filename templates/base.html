@@ -1,0 +1,63 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}LotusOvO{% endblock %}
+
+
+{% block navbar %}
+    <nav class="navbar navbar-expand-lg navbar-light" width="100%" style="background-color: #c0caea">
+        <a class="navbar-brand" href="/">首页</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarScroll"
+                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        {# 根据窗口大小隐藏的按钮 #}
+        <div class="collapse navbar-collapse" id="navbarScroll">
+            <div class="navbar-nav mr-auto my-2 my-lg-0 navbar-nav-scroll" style="max-height: 100px;">
+            </div>
+
+
+            {#             导航条右侧 #}
+            {% if current_user.is_authenticated and current_user.get_id() != 'admin' %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                           aria-expanded="false">{{ current_user.username }}</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ url_for('shoppingtrolley') }}">购物车</a>
+                            <a class="dropdown-item"
+                               href="{{ url_for('orders', username=current_user.username) }}">我的订单</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">注销</a>
+                    </li>
+                </ul>
+            {% elif current_user.get_id() == 'admin' %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                           aria-expanded="false">{{ current_user.username }}</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ url_for('manage') }}">商品管理</a>
+                            {#<a class="dropdown-item" href="{{ url_for('manage') }}">销售报表</a>#}
+                            <a class="dropdown-item"
+                               href="{{ url_for('orders', username=current_user.username) }}">用户订单</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">注销</a>
+                    </li>
+                </ul>
+            {% else %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="nav-item">
+                        <a class="nav-link" href="login">登录</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="register">注册</a>
+                    </li>
+                </ul>
+            {% endif %}
+        </div>
+    </nav>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-warning" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>{{ message }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="container">
+        <div class="text-center">
+            <h1>订单</h1>
+        </div>
+        <hr>
+        {% if order|length == 0 %}
+            <div class="text-center">
+                <h4>暂无订单</h4>
+            </div>
+        {% else %}
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-center">用户名</th>
+                    <th scope="col" class="text-center">商品</th>
+                    <th scope="col" class="text-center">单价</th>
+                    <th scope="col" class="text-center">数量</th>
+                    <th scope="col" class="text-center">时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in order %}
+                    <tr>
+                        <td class="text-center">{{ item['username'] }}</td>
+                        <td class="text-center">{{ item['goodname'] }}</td>
+                        <td class="text-center">{{ item['unitprice'] }}</td>
+                        <td class="text-center">{{ item['number'] }}</td>
+                        <td class="text-center">{{ item['time'] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-warning" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>{{ message }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="container">
+        <div class="row">
+            {% for item in form %}
+                <div class="col-md-3 alert alert-success">
+                    <div class="text-center">
+                        <img class="img-thumbnail img-responsive center-block"
+                             src="{{ url_for('static', filename=item.image.data) }}" width="200" height="200" alt="...">
+                    </div>
+                    <div class="text-center">
+                        {{ item.hidden_tag() }}
+                        <p>商品：{{ item.name.data }}</p>
+                        <p>库存：{{ item.number.data }}</p>
+                        <p>售价：￥{{ item.price.data }}</p>
+                        <a class="btn btn-info btn-sm btn-block"
+                           href="{{ url_for('addshoppingtrolley', id=item.ID.data) }}" role="button"
+                           id="{{ item.ID.data }}">加入购物车</a>
+                    </div>
+                </div>
+                <div class="col-sm-1"></div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-warning" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>{{ message }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="container">
+        <h1 class="text-center">商品管理</h1>
+        {% if form|length >= 0 %}
+            <div class="row alert alert-dark">
+                <h4 class="col-2 text-center">商品名</h4>
+                <div class="col-1"></div>
+                <h4 class="col-2 text-center">售价￥</h4>
+                <div class="col-1"></div>
+                <h4 class="col-2 text-center">库存</h4>
+                <div class="col-3"></div>
+            </div>
+        {% endif %}
+        {% for item in form %}
+            <div class="alert alert-primary">
+                <form action="{{ url_for('modifigood',id=item.ID.data) }}" method="post" class="row">
+                    {{ item.hidden_tag() }}
+                    <input class="col-2 form-control" name="name" value='{{ item.name.data }}'>
+                    <div class="col-1"></div>
+                    <input class="col-2 form-control" name="price" value="{{ item.price.data }}">
+                    <div class="col-1"></div>
+                    <input class="col-2 form-control" name="num" value="{{ item.number.data }}">
+                    <div class="col-1"></div>
+                    <button type="submit" class="col-1 btn btn-warning btn-sm">修改</button>
+                    <div class="col-1"></div>
+                    <a class="col-1 btn btn-danger btn-sm" role="button"
+                       href="{{ url_for('removegood',id=item.ID.data) }}">
+                        移除
+                    </a>
+                </form>
+{#                {{ item.hidden_tag() }}#}
+{#                <div class="col-3">#}
+{#                    {{ item.name }}#}
+{#                </div>#}
+{#                <div class="col-2">#}
+{#                    {{ item.price }}#}
+{#                </div>#}
+{#                <div class="col-2">#}
+{#                    {{ item.number }}#}
+{#                </div>#}
+{#                <div class="col-1"></div>#}
+{#                <a class="col-1 btn btn-warning btn-sm" role="button"#}
+{#                   href="{{url_for('modifigood', id=item.ID.data,#}
+{#                           name=item.name.data, price=item.price.data,#}
+{#                           num=item.number.data)}}">#}
+{#                    修改#}
+{#                </a>#}
+{#                <div class="col-1"></div>#}
+{#                <a class="col-1 btn btn-danger btn-sm" role="button"#}
+{#                   href="{{url_for('removegood',id=item.ID.data)}}">#}
+{#                    移除#}
+{#                </a>#}
+            </div>
+        {% endfor %}
+        <form class="row" action="manage" method="post">
+            {{ newgood.hidden_tag() }}
+            <div class="col-3">
+                {{ newgood.name(placeholder='商品名') }}
+            </div>
+            <div class="col-2">
+                {{ newgood.price(placeholder='售价') }}
+            </div>
+            <div class="col-2">
+                {{ newgood.number(placeholder='库存') }}
+            </div>
+            <div CLASS="col-2"></div>
+                {{ newgood.submit }}
+    </form>
+
+
+    </div>
+{% endblock %}

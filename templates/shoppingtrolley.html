@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-warning" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>{{ message }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="container">
+        <div class="text-center">
+            <h1>购物车</h1>
+        </div>
+        <hr>
+        {% for item in form %}
+            <div class="row align-items-end">
+                {{ item.hidden_tag() }}
+                <div class="col-8">
+                    商品： {{ item.name.data }}
+                </div>
+                <div class="col-2">
+                    售价：￥{{ item.price.data }}
+                </div>
+                <div class="col-2">
+                    <a class="btn btn-outline-primary btn-sm"
+                       href="{{ url_for('removeshoppingtrolley', id=item.ID.data) }}" role="button"
+                       id="{{ item.ID.data }}">移除</a>
+                </div>
+            </div>
+            <hr>
+        {% endfor %}
+        {% if form|length == 0 %}
+            <div class="text-center">
+                <h4>暂无商品</h4>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-10"></div>
+                <a class="btn btn-info col-1" href="payment" role="button">结账</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
